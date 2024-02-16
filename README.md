@@ -21,7 +21,7 @@ Don't forget to call the `SingletonApp.Cleanup` method when the application is c
 
 **Do not** call the `SingletonApp.Check` method repeatedly. Use `SingletonApp.IsNew` instead, unless you are fully aware of what you are doing.
 
-```csharp
+```c#
 bool result1 = SingletonApp.Check(); // True
 bool result2 = SingletonApp.IsNew; // True
 bool result3 = SingletonApp.Check(); // False
