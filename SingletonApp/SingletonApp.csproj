@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>AS.SingletonApp</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>AlexSJC</Authors>
     <Description>Ensure only one instance of the application is running</Description>
     <Copyright>Copyright © AlexSJC 2024</Copyright>
