@@ -1,32 +1,5 @@
-This library allows you to create single instance applications.
+# SingletonApp
 
-**Use `Asjc.*` instead of `AS.*` and `AsUtils.*`!**
+[![NuGet](https://img.shields.io/nuget/v/Asjc.SingletonApp)](https://www.nuget.org/packages/Asjc.SingletonApp/)
 
-## Getting started
-
-Call the `SingletonApp.Check` method at an appropriate place. It will return a bool indicating whether the application is a new instance.
-
-```c#
-// WPF
-protected override void OnStartup(StartupEventArgs e)
-{
-    base.OnStartup(e);
-
-    if (!SingletonApp.Check())
-        Shutdown();
-}
-```
-
-Don't forget to call the `SingletonApp.Cleanup` method when the application is closed!
-
-### Attention
-
-**Do not** call the `SingletonApp.Check` method repeatedly. Use `SingletonApp.IsNew` instead, unless you are fully aware of what you are doing.
-
-```c#
-bool result1 = SingletonApp.Check(); // True
-bool result2 = SingletonApp.IsNew; // True
-bool result3 = SingletonApp.Check(); // False
-bool result4 = SingletonApp.IsNew; // False
-```
-
+Ensure only one instance of the application is running.

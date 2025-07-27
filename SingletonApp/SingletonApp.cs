@@ -2,39 +2,64 @@
 
 namespace Asjc.SingletonApp
 {
-    public enum MutexScope
-    {
-        Local,
-        Global
-    }
-
+    /// <summary>
+    /// Provides functionality to ensure only one instance of the application is running.
+    /// </summary>
     public static class SingletonApp
     {
         private static Mutex? mutex;
+        private static bool isNew;
 
-        public static bool IsNew { get; private set; }
-
-        public static bool Check()
+        /// <summary>
+        /// Gets a value indicating whether this is the first instance of the application.
+        /// </summary>
+        public static bool IsNew
         {
-            return Check(MutexScope.Local);
+            get
+            {
+                if (!IsInitialized)
+                    Initialize();
+                return isNew;
+            }
         }
 
-        public static bool Check(MutexScope scope)
+        /// <summary>
+        /// Gets a value indicating whether the singleton check has been initialized.
+        /// </summary>
+        public static bool IsInitialized => mutex != null;
+
+        /// <summary>
+        /// Initializes the singleton check.
+        /// </summary>
+        public static void Initialize(bool useGlobal = true)
         {
-            return Check($"{scope}\\{Assembly.GetEntryAssembly()?.GetName().Name}");
+            string? assemblyName = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).GetName().Name;
+            Initialize(assemblyName, useGlobal);
         }
 
-        public static bool Check(string name)
+
+        /// <summary>
+        /// Initializes the singleton check.
+        /// </summary>
+        public static void Initialize(string? identifier, bool useGlobal = true)
         {
+            string? name = useGlobal ? $"Global\\{identifier}" : identifier;
             bool createdNew;
             mutex = new(true, name, out createdNew);
-            IsNew = createdNew;
-            return createdNew;
+            isNew = createdNew;
         }
 
+        /// <summary>
+        /// Cleans up the mutex resources used by the singleton check.
+        /// </summary>
         public static void Cleanup()
         {
-            mutex?.Close();
+            if (mutex != null)
+            {
+                if (isNew)
+                    mutex.ReleaseMutex();
+                mutex.Close();
+            }
         }
     }
 }
