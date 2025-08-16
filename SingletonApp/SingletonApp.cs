@@ -37,7 +37,6 @@ namespace Asjc.SingletonApp
             Initialize(assemblyName, useGlobal);
         }
 
-
         /// <summary>
         /// Initializes the singleton check.
         /// </summary>
@@ -50,7 +49,7 @@ namespace Asjc.SingletonApp
         }
 
         /// <summary>
-        /// Cleans up the mutex resources used by the singleton check.
+        /// Cleans up all resources held by the mutex.
         /// </summary>
         public static void Cleanup()
         {
@@ -59,6 +58,7 @@ namespace Asjc.SingletonApp
                 if (isNew)
                     mutex.ReleaseMutex();
                 mutex.Close();
+                mutex = null;
             }
         }
     }
